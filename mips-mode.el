@@ -108,6 +108,12 @@
     "move"
     "nop"
     "clear"
+    "seq"
+    "sge"
+    "sgeu"
+    "sgt"
+    "sgtu"
+    "sne"
 
     ;; floating point instuctions
     "add.s"
@@ -201,7 +207,7 @@
   (save-excursion
     (previous-line)
     (end-of-line)
-    (re-search-backward "^[ \t]*\\w+:")
+    (re-search-backward "^[-_A-Za-z0-9]*:$")
     (line-number-at-pos)))
 
 (defun mips-indent ()
