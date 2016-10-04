@@ -162,7 +162,7 @@
      ;; special characters
      (":\\|,\\|;\\|{\\|}\\|=>\\|@\\|\\$\\|=" . font-lock-builtin-face))))
 
-(defcustom mips-tab-width tab-width
+(defcustom mips-tab-width 4
   "Width of a tab for MIPS mode"
   :tag "Tab width"
   :group 'mips
@@ -207,13 +207,16 @@
   (save-excursion
     (previous-line)
     (end-of-line)
-    (re-search-backward "^[-_A-Za-z0-9]*:$")
+    (re-search-backward "^[a-zA-Z][a-zA-Z_0-9]*:")
     (line-number-at-pos)))
 
 (defun mips-indent ()
   (interactive)
-  (indent-line-to (+ mips-tab-width
-                     (mips--get-indent-level (mips--last-label-line)))))
+                                        ; (looking-at "[\t ]*\.[-_a-zA-Z0-9\t ]+")
+  (if (looking-at "^[\t ]*[-_a-zA-Z0-9]+:")
+      (indent-line-to 0)
+
+    (indent-line-to mips-tab-width)))
 
 (defun mips-dedent ()
   (interactive)
